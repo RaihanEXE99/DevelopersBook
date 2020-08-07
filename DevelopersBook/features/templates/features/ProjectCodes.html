@@ -1,0 +1,165 @@
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Gruppo');
+    body {
+        margin: 0;
+    }
+
+    #editor {
+        width: 90vw;
+        height: 90vh;
+        margin: 5vw;
+        font-size: 1.3rem !important;
+    }
+
+    .options {
+        text-align: center;
+    }
+
+    .options .options_selection {
+        padding: 10px;
+        border: none;
+        margin: 25px 0 10px 0;
+        text-align: center;
+        -webkit-appearance: none;
+        font-family: 'Gruppo', cursive;
+        font-size: 1em;
+        color: #333;
+        font-weight: bolder;
+        width: 30%;
+        background-color: #f2f2f2;
+    }
+
+    .options .options_selection:focus {
+        outline: none;
+    }
+
+    select::-ms-expand {
+        display: none;
+    }
+
+    @media (max-width: 767px) {
+        #editor {
+            width: 90%;
+        }
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
+
+<section class="options">
+
+    <select class="options_selection" name="select-language" id="language">
+        <option value="c_cpp">C C++</option>
+        <option value="csharp">C#</option>
+        <option value="js">JS</option>
+        <option value="python">Python</option>
+        <option value="php">PHP</option>
+        <option value="ruby">Ruby</option>
+        <option value="java">Java</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <select class="options_selection" name="select-theme" id="theme">
+        <option value="monokai">Monokai</option>
+        <option value="dawn">Dawn</option>
+        <option value="Cobalt">Cobalt</option>
+        <!-- <option value="solarizedlight">Solarized Light</option>
+        <option value="sql_server">SQL Server</option>
+        <option value="ambiance">Ambiance</option>
+        <option value="chaos">Chaos</option>
+        <option value="gruvbox">Gruvbox</option>
+        <option value="solarized_dark">Solarized Dark</option>
+        <option value="terminal">Terminal</option> -->
+    </select>
+
+
+</section>
+
+<div id="editor">#include &ltstdio.h>
+int main(void){
+    printf("hello world");
+}</div>
+
+<script>
+    onload = function() {
+
+        // Setup
+        var languageOption = document.getElementById("language");
+        var themeOption = document.getElementById("theme");
+        var codeEditor = document.getElementById("editor");
+        var theme = "monokai";
+    
+        // Ace Setup
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/c_cpp");
+        editor.getSession().getAnnotations();
+    
+        // Change content dynamically
+        /*
+        languageOption.onchange = function() {
+            switch(this.value) {
+                case 'c_cpp':     changeContent('', "c_cpp"); break;
+                case 'js':         changeContent("", "javascript"); break;
+                case 'csharp':     changeContent("", "css"); break;
+                case 'python':     changeContent("", "python"); break;
+                case 'php':     changeContent("", "php"); break;
+                case 'ruby':     changeContent("", "ruby"); break;
+                case 'java':     changeContent("", "java"); break;
+                default:         changeContent("", "c_cpp"); break;
+            }
+        }
+        */
+
+        languageOption.onchange = function() {
+            switch(this.value) {
+                case 'c_cpp':     changeContent('#include &ltstdio.h>\nint main(void){\n    printf("hello world");\n}', "c_cpp"); break;
+                case 'js':         changeContent("// Just an arrow function... \n\nvar waifu = waifu => console.log('Your waifu is ' + waifu);\n\nwaifu('Rem');", "javascript"); break;
+                case 'csharp':     changeContent("", "css"); break;
+                case 'python':     changeContent("'''\nAlways wanted to learn something\nmore about Python,\nso simple and at the\nsame time so complex!\n'''\n\nprint('Have a nice day!')", "python"); break;
+                case 'php':     changeContent("&lt;?php\n\n// PHP and WordPress, nothing else! \n\nif( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ):\n\t wp_nonce_field( 'prefix_function', 'prefix_function_nonce' );\nendif;'", "php"); break;
+                case 'ruby':     changeContent("# Ruby, just Ruby!\n\nclass HelloTrema < Trema::Controller\n\tdef start(_args)\n\t\tlogger.info 'Trema started.'\n\tend\n\tdef switch_ready(datapath_id)\n\t\tlogger.info \"Hello #{datapath_id.to_hex}!\"\n\tend\nend", "ruby"); break;
+                case 'java':     changeContent("// Do you want some coffee?\n\npublic class HelloWorld\n{\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println('Hello World!');\n\t}\n}", "java"); break;
+                default:         changeContent("", "c_cpp"); break;
+            }
+        }
+
+    
+        // Change theme dynamically
+        themeOption.onchange = function() {
+            switch(this.value) {
+                case 'monokai':         changeTheme("monokai");                break;
+                case 'dawn':             changeTheme("dawn");                 break;
+                case 'Cobalt':             changeTheme("cobalt");                 break;
+                case 'plastic':         changeTheme("iplastic");             break;
+                case 'solarizedlight':     changeTheme("solarized_light");     break;
+                case 'sql_server':         changeTheme("sqlserver");             break;
+                case 'ambiance':         changeTheme("ambiance");             break;
+                case 'chaos':             changeTheme("chaos");                 break;
+                case 'gruvbox':         changeTheme("gruvbox");             break;
+                case 'solarized_dark':     changeTheme("solarized_dark");         break;
+                case 'terminal':         changeTheme("terminal");             break;
+                default:                 changeTheme("terminal");                break;
+            }
+        }
+    
+        // Functions
+        function changeContent(content, lang) {
+            var elementExists = document.getElementById("editor");
+            if( elementExists ) document.body.removeChild(elementExists);
+            var div = document.createElement("div");
+            div.innerHTML = content;
+            div.id = "editor";
+            document.body.appendChild(div);
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/" + theme);
+            editor.getSession().setMode("ace/mode/" + lang);
+        }
+    
+        function changeTheme(type) {
+            theme = type;
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/" + theme);
+        }
+    
+    }
+</script>

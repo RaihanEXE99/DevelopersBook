@@ -1,0 +1,97 @@
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+  .fire_font{
+    font-family: 'Roboto', sans-serif;
+  }
+
+  nav{
+    font-family: 'Roboto', sans-serif;
+  }
+  .dropdown:hover .dropdown-menu {
+	display: block;
+  }
+</style>
+<head class="bg-gray-400  leading-normal tracking-normal">
+
+	<nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6 w-full z-10 top-0">
+		<div class="flex justify-center items-center flex-shrink-0 text-white mr-6">
+			<a class="text-white no-underline hover:text-white hover:no-underline " href="#">
+				<div class="text-2xl pl-2 flex justify-center items-center">
+					<img src="https://img.icons8.com/cute-clipart/64/000000/book.png"/>
+					<a href="/">
+						<h1 class="fire_font">DevelopersBook</h1> 
+					</a>
+				</div>
+			</a>
+		</div>
+
+		<!-- <div class="block lg:hidden">
+			<button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-white hover:border-white">
+				<svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path></svg>
+			</button>
+		</div> -->
+
+		<div class=" w-auto flex-grow flex items-center  block pt-6 lg:pt-0" id="nav-content">
+			<ul style="font-size: 1.2vw;" class="list-reset flex justify-end flex-1 items-center">
+        <li class="mr-3 bg-red-500 hover:bg-pink-500">
+					<a href="{% url 'projects:projectList' %}" class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Search Projects</a>
+        </li>
+        <li class="mr-3 bg-purple-500 hover:bg-orange-500">
+					<a href="{% url 'bop:myProjects' %}" class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">My Projects</a>
+        </li>
+        <li class="mr-3 bg-blue-500 hover:bg-red-400">
+					<a href="{% url 'bop:profile' %}" class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Profile</a>
+        </li>
+        <!-- <li class="mr-3 bg-green-500 hover:bg-blue-500">
+					<a href="{% url 'bop:createProject' %}" class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Create A Project</a>
+		</li> -->
+		
+
+        <li class="mr-3 bg-orange-400 hover:bg-purple-500">
+					<a href="{% url 'discussion:discussionList' %}" class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Discussion</a>
+		</li>
+		
+		<div class="mr-3  hover:bg-purple-500">
+
+			<div class="dropdown inline-block relative">
+			  <button class="bg-gray-600 text-white  py-2 px-4 inline-flex items-center">
+				<span class="mr-1">More</span>
+				<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+			  </button>
+			  <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
+				<li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="{% url 'bop:users' %}">Members</a></li>
+				<li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">Virtual Mail</a></li>
+				<!-- <li class=""><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">My Project</a></li> -->
+			  </ul>
+			</div>
+		  
+		  </div>
+
+        {% if user.is_authenticated %}
+        <li class="mr-3 bg-pink-600 hover:bg-red-500">
+					<a href="{% url 'core:corelogout' %}" class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">LogOut</a>
+        </li>
+        {% endif %}
+				
+			</ul>
+		</div>
+	</nav>
+
+	<!--Container-->
+	<!-- <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18">
+
+	</div> -->
+
+	<!-- <script>
+		//Javascript to toggle the menu
+		document.getElementById('nav-toggle').onclick = function(){
+			document.getElementById("nav-content").classList.toggle("hidden");
+		}
+	</script> -->
+
+
+</head>
+
+{% block body %}
+{% endblock %}

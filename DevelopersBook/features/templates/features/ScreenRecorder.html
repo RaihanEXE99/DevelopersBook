@@ -1,0 +1,382 @@
+{% extends 'projects/base.html' %}
+{% block body%}
+{% load static %}
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta id="theme-color" name="theme-color" content="#fff">
+  <base target="_blank">
+  <title>ScreenRecorder</title>
+  <style>
+    a#downloadLink {
+      display: block;
+      margin: 0 0 1em 0;
+      min-height: 1.2em;
+    }
+
+    p#data {
+      min-height: 6em;
+    }
+  </style>
+</head>
+<style>
+    body {
+        font-family: sans-serif;
+        font-weight: 300;
+        margin: 0;
+        padding: 1em;
+        word-break: break-word;
+      }
+      
+      a {
+        color: #4183c4;
+        font-weight: 300;
+        text-decoration: none;
+      }
+      
+      a:hover {
+        color: #3d85c6;
+        text-decoration: underline;
+      }
+      
+      div#container {
+        margin: 0 auto 0 auto;
+        max-width: 720px;
+        padding: 1em 1.5em 1.3em 1.5em;
+      }
+      
+      h1 {
+        font-family: sans-serif;
+        font-weight: 500;
+      }
+      
+      h2 {
+        color: #444;
+        font-size: 1em;
+        font-weight: 500;
+        line-height: 1.2em;
+        margin: 0 0 0.8em 0;
+      }
+      
+      h3 {
+        border-top: 1px solid #eee;
+        color: #666;
+        font-size: 0.9em;
+        font-weight: 500;
+        margin: 20px 0 10px 0;
+        padding: 10px 0 0 0;
+        white-space: nowrap;
+      }
+      /*
+      p#data {
+        border-top: 1px dotted #666;
+        font-family: Courier New, monospace;
+        line-height: 1.3em;
+        max-height: 1000px;
+        overflow-y: auto;
+        padding: 1em 0 0 0;
+      }
+      */
+      
+      video {
+        background: #222;
+        margin: 10px auto;
+        width: 640px;
+        height: 360px;
+      }
+</style>
+
+<!-- <meta http-equiv="refresh" content="5"> -->
+<body>
+  <div class="bg-gray-800" id="container">
+    <div style="text-align:center;">
+      <!-- <h1>Screen Recording With System Sounds Demo</h1>
+      <p><small>Made by the <a href="https://addpipe.com">Pipe Recording Platform</a></small></p>
+      <h2>Record the screen, mic and system sounds.</h2> -->
+      <video controls autoplay></video><br>
+      <button id="shareScreen" onclick="onShareScreen()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Share Screen</button>
+      <button id="rec" onclick="onBtnRecordClicked()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>Record</button>
+      <button id="stop" onclick="onBtnStopClicked()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" disabled>Stop</button>
+      <button onClick="window.location.reload();" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Refresh</button>
+      <!-- <button id="stateButton" onclick="onStateClicked()">trace state</button> -->
+    </div>
+    <div class="my-12">
+      <a class="font-bold italic text-white text-xl" id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href disabled></a>
+    </div>
+    
+    <p class="text-white font-xl font-bold" id="data"></p>
+    <script src="https://webrtchacks.github.io/adapter/adapter-latest.js"></script>
+    <div class="p-4 bg-gray-100 shadow-lg">
+    <span class="text-2xl font-bold italic text-red-600">Limitations:</span>
+    
+      <ul class="text-md font-bold italic text-gray-600">
+        <li>Chrome 74 and up (incl. system sounds)</li>
+        <li>Firefox 66 and up (no system sounds)</li>
+      </ul>
+    </div>
+    
+
+  </div>
+</body>
+
+
+
+<Script>
+    
+var screenConstraints = { video: true, audio: true };
+var micConstraints = { audio: true };
+
+// Some UI elements
+var shareBtn = document.querySelector("button#shareScreen");
+var recBtn = document.querySelector("button#rec");
+var stopBtn = document.querySelector("button#stop");
+
+var videoElement = document.querySelector("video");
+var dataElement = document.querySelector("#data");
+var downloadLink = document.querySelector("a#downloadLink");
+
+//Hide the UI on the video element
+videoElement.controls = false;
+
+var mediaRecorder;
+var chunks = [];
+var count = 0;
+var localStream = null;
+var micNumber = 0;
+
+function onShareScreen() {
+  if (!navigator.mediaDevices.getDisplayMedia) {
+    alert("navigator.mediaDevices.getDisplayMedia not supported on your browser, use the latest version of Chrome");
+  } else {
+    if (window.MediaRecorder == undefined) {
+      alert("MediaRecorder not supported on your browser, use the latest version of Firefox or Chrome");
+    } else {
+      navigator.mediaDevices.getDisplayMedia(screenConstraints).then(function(screenStream) {
+        //check if there's a microphone
+        navigator.mediaDevices.enumerateDevices().then(function(devices) {
+          devices.forEach(function(device) {
+            if (device.kind == "audioinput") {
+              micNumber++;
+            }
+          });
+
+          if (micNumber == 0) {
+            //no audio inputs present on device/pc
+            onCombinedStreamAvailable(screenStream);
+          } else {
+            //audio inputs present, let's get access
+            navigator.mediaDevices.getUserMedia(micConstraints).then(function(micStream) {
+
+              //create a new stream in which to pack everything together
+              var composedStream = new MediaStream();
+
+              //add the screen video stream
+              screenStream.getVideoTracks().forEach(function(videoTrack) {
+                composedStream.addTrack(videoTrack);
+              });
+
+              //if system audio has been shared
+              if (screenStream.getAudioTracks().length > 0) {
+                //merge the system audio with the mic audio
+                var context = new AudioContext();
+                var audioDestination = context.createMediaStreamDestination();
+
+                const systemSource = context.createMediaStreamSource(screenStream);
+                const systemGain = context.createGain();
+                systemGain.gain.value = 1.0;
+                systemSource.connect(systemGain).connect(audioDestination);
+                console.log("added system audio");
+
+                /*
+                if (micStream && micStream.getAudioTracks().length > 0) {
+                  const micSource = context.createMediaStreamSource(micStream);
+                  const micGain = context.createGain();
+                  micGain.gain.value = 1.0;
+                  micSource.connect(micGain).connect(audioDestination);
+                  console.log(" added mic audio");
+                }
+                */
+
+                audioDestination.stream.getAudioTracks().forEach(function(audioTrack) {
+                  composedStream.addTrack(audioTrack);
+                });
+              } else {
+                //add just the mic audio
+                micStream.getAudioTracks().forEach(function(micTrack) {
+                    composedStream.addTrack(micTrack);
+                });
+              }
+
+              onCombinedStreamAvailable(composedStream);
+
+            })
+              .catch(function(err) {
+              log("navigator.getUserMedia error: " + err);
+            });
+          }
+        })
+          .catch(function(err) {
+          log(err.name + ": " + err.message);
+        });
+      })
+        .catch(function(err) {
+        log("navigator.getDisplayMedia error: " + err);
+      });
+    }
+  }
+}
+
+function onCombinedStreamAvailable(stream) {
+  localStream = stream;
+  localStream.getTracks().forEach(function(track) {
+    /*
+    if (track.kind == "audio") {
+      track.onended = function(event) {
+        log("audio track.onended Audio track.readyState=" + track.readyState + ", track.muted=" + track.muted);
+      };
+    } 
+    */
+    if (track.kind == "video") {
+      track.onended = function(event) {
+        log("video track.onended Audio track.readyState=" + track.readyState + ", track.muted=" + track.muted);
+      };
+    }
+  });
+
+  videoElement.srcObject = localStream;
+  videoElement.play();
+  videoElement.muted = true;
+  recBtn.disabled = false;
+  shareBtn.disabled = true;
+  /*
+  try {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    window.audioContext = new AudioContext();
+  } catch (e) {
+    log("Web Audio API not supported.");
+  }
+  */
+}
+
+function onBtnRecordClicked() {
+  dataElement.innerHTML = "=> Recording Screen...... <=";
+  if (localStream == null) {
+    alert("Could not get local stream from mic/camera");
+  } else {
+    recBtn.disabled = true;
+    stopBtn.disabled = false;
+
+    /* use the stream */
+    log("Start recording...");
+    if (typeof MediaRecorder.isTypeSupported == "function") {
+      if (MediaRecorder.isTypeSupported("video/webm;codecs=vp9")) {
+        var options = { mimeType: "video/webm;codecs=vp9" };
+      } else if (MediaRecorder.isTypeSupported("video/webm;codecs=h264")) {
+        var options = { mimeType: "video/webm;codecs=h264" };
+      } else if (MediaRecorder.isTypeSupported("video/webm;codecs=vp8")) {
+        var options = { mimeType: "video/webm;codecs=vp8" };
+      }
+      log("Using " + options.mimeType);
+      mediaRecorder = new MediaRecorder(localStream, options);
+    } else {
+      log("isTypeSupported is not supported, using default codecs for browser");
+      mediaRecorder = new MediaRecorder(localStream);
+    }
+
+    mediaRecorder.ondataavailable = function(e) {
+      chunks.push(e.data);
+    };
+
+    mediaRecorder.onerror = function(e) {
+      log("mediaRecorder.onerror: " + e);
+    };
+
+    mediaRecorder.onstart = function() {
+      log("mediaRecorder.onstart, mediaRecorder.state = " + mediaRecorder.state);
+
+      localStream.getTracks().forEach(function(track) {
+        if (track.kind == "audio") {
+          log("onstart - Audio track.readyState=" + track.readyState + ", track.muted=" + track.muted);
+        }
+        if (track.kind == "video") {
+          log("onstart - Video track.readyState=" + track.readyState + ", track.muted=" + track.muted);
+        }
+      });
+    };
+
+    mediaRecorder.onstop = function() {
+      log("mediaRecorder.onstop, mediaRecorder.state = " + mediaRecorder.state);
+
+      var blob = new Blob(chunks, { type: "video/webm" });
+      chunks = [];
+
+      var videoURL = window.URL.createObjectURL(blob);
+
+      downloadLink.href = videoURL;
+      videoElement.src = videoURL;
+      downloadLink.innerHTML = "::: Download :::";
+
+      var rand = Math.floor(Math.random() * 10000000);
+      var name = "video_" + rand + ".webm";
+
+      downloadLink.setAttribute("download", name);
+      downloadLink.setAttribute("name", name);
+    };
+
+    mediaRecorder.onwarning = function(e) {
+      log("mediaRecorder.onwarning: " + e);
+    };
+
+    mediaRecorder.start(10);
+
+    localStream.getTracks().forEach(function(track) {
+      log(track.kind + ":" + JSON.stringify(track.getSettings()));
+      console.log(track.getSettings());
+    });
+  }
+}
+
+function onBtnStopClicked() {
+
+  mediaRecorder.stop();
+  videoElement.controls = true;
+  recBtn.disabled = false;
+  stopBtn.disabled = true;
+  dataElement.innerHTML = "Recording Stopped";
+
+
+}
+
+function onStateClicked() {
+  if (mediaRecorder != null && localStream != null) {
+    log("mediaRecorder.state=" + mediaRecorder.state);
+    log("mediaRecorder.mimeType=" + mediaRecorder.mimeType);
+    log("mediaRecorder.videoBitsPerSecond=" + mediaRecorder.videoBitsPerSecond);
+    log("mediaRecorder.audioBitsPerSecond=" + mediaRecorder.audioBitsPerSecond);
+
+    localStream.getTracks().forEach(function(track) {
+      if (track.kind == "audio") {
+        log("Audio: track.readyState=" + track.readyState + ", track.muted=" + track.muted);
+      }
+      if (track.kind == "video") {
+        log("Video: track.readyState=" + track.readyState + ", track.muted=" + track.muted);
+      }
+    });
+  }
+}
+var coun = 0;
+function log(message) {
+  /*
+  dataElement.innerHTML = dataElement.innerHTML + "<br>" + message;
+  console.log(message);
+  */
+
+    
+  
+  
+}
+</Script>
+
+{% endblock %}

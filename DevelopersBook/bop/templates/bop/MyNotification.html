@@ -1,0 +1,102 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<!-- <div class="flex justify-center">
+   <div class="bg-purple-500 hover:bg-pink-500 fire_font text-2xl">
+      <h1 class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Notification</h1>
+   </div>
+</div> -->
+
+<!-- <div class="flex justify-center py-24">
+
+<img src="{% static 'bop/images/ZeroNotification.png' %}">
+
+</div> -->
+{% if not myN %}
+
+<div class="flex justify-center my-12">
+   <div>
+      <div class="flex justify-center">
+         <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_KhUhak.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+         <!-- <lottie-player src="{% static 'bop/json/lf30_editor_H0hZxU.json' %}"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player> -->
+      </div>
+      <div class="flex justify-center">
+         <div class="text-center">
+            <h2 class="text-lg font-semibold text-gray-800 -mt-1 fire_font">No Notification Yet</h2>
+            <div class="my-4">
+               <h2 class="text-sm font-normal text-gray-600 -mt-1 fire_font">Share Your projects in facebook,github and other platforms to get mroe reach.</h2>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endif %}
+
+{% if myN %}
+
+<div class="flex justify-center my-12">
+   <div>
+      <div class="flex justify-center">
+         <lottie-player src="{% static 'bop/json/lf30_editor_H0hZxU.json' %}"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+         <div class="flex justify-center items-center">
+            <div class="text-center">
+               <h2 class="text-lg font-semibold text-gray-800 -mt-1 fire_font">Hi {{ request.user.first_name }} {{ request.user.last_name }}</h2>
+               <div class="my-4">
+                  <h2 class="text-sm font-normal text-gray-600 -mt-1 fire_font">You have received a notification.<br>Share Your projects in facebook,github and other platforms to get mroe reach.</h2>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endif %}
+
+
+
+
+{% for x in myN %}
+<div class="flex justify-center">
+   <div style="width: 63%;" class="flex justify-center bg-white shadow-lg rounded-lg mx-4  my-12  xl:max-w-3xl ">
+<div class="w-full flex items-start px-4 py-6">
+   <div class="w-12 h-12  bg-red-400 rounded-full object-cover mr-4 shadow" ><h1 class="mx-2 my-2 text-xl font-semibold text-white">Req</h1></div>
+   <div class=" w-5/6">
+      <div class="flex items-center justify-between">
+         <h2 class="text-lg font-semibold text-gray-900 -mt-1">{{x.projectName.projectName}}</h2>
+
+      </div class="">
+      <p class="text-gray-700"><span class="text-blue-700 font-semibold italic">{{x.reqUser.first_name}} {{x.reqUser.last_name}}</span> wants to join your project!</p>
+      <p style="word-wrap: break-word !important;" class="mt-3 text-gray-700 text-sm ">
+         {{x.message}}
+      </p>
+      <div class="mt-4 flex justify-end items-center">
+         <div class="flex mr-2 text-gray-700 text-sm mr-3">
+            <span class="font-semibold italic text-md text-gray-500">Id:#<span class="font-bold italic text-md text-green-500">{{x.projectName.id}}</span></span>
+         </div>
+      </div>
+      <div class="flex justify-center">
+        <form method="POST" action="{% url 'bop:NotificationDecision' that_id=x.id %}">
+            {% csrf_token %}
+            <input hidden type="text" value="Accept" name="decision">
+            <button class="mx-6 bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Accept
+            </button>
+            </a>
+        </form>
+        <form method="POST" action="{% url 'bop:NotificationDecision' that_id=x.id %}">
+            {% csrf_token %}
+            <input hidden type="text" value="Reject" name="decision">
+          <button class="mx-6 bg-Red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Reject
+          </button>
+        </form>
+      </div>
+   </div>
+</div>
+</div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

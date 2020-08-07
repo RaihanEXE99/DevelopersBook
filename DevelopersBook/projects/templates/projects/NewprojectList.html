@@ -1,0 +1,161 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+
+
+<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'projects/projectList.css' %}">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+
+<style>
+	*{
+		font-family: 'Roboto', sans-serif;
+		font-weight: bold;
+	}
+	.bang{
+		font-family: 'Bangers', cursive;
+		letter-spacing: 2px;
+	}
+</style>
+
+<div class="flex justify-center my-12 ">
+	<div class="bg-gray-800  fire_font text-2xl rounded-lg">
+		<h1 class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">All Ongoing Projects</h1>
+	</div>
+</div>
+
+
+<div class="flex justify-center mx-8">
+	<div>
+		<div class="px-20">
+			<lottie-player src="{% static 'projects/json/lf30_editor_uTYTu7.json' %}"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+		</div>
+		<div class="flex justify-center items-center ">
+			<h1 style="letter-spacing: 2px;" class=" text-xl font-bold text-gray-700 text-center bang">Share your problems here <br> create discussion , solve together ! </h1>
+		</div>
+	</div>
+	<div>
+		<div class="px-20">
+			<lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_WdTEui.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+		</div>
+		<div class="flex justify-center items-center ">
+			<h1 style="letter-spacing: 2px;" class=" text-xl font-bold text-gray-700 text-center bang">Share your problems here <br> create discussion , solve together ! </h1>
+		</div>
+	</div>
+</div>
+
+<div class="flex justify-center bg-gray-900 w-2/3 mx-auto rounded-lg my-8">
+	<div  class="transform rotate-90 mx-10 ">
+		<lottie-player id="rocket"  src="https://assets1.lottiefiles.com/packages/lf20_1Uj5JP.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+	</div>
+	<div class="flex justify-center items-center mx-10">
+		<div>
+			<h1 style="letter-spacing: 2px;" class=" text-md font-bold text-gray-100 text-center bang">Create Project and solve together ! </h1>
+			<div class="flex justify-center my-4">
+				<a href="{% url 'bop:createProject' %}">
+					<button onclick="rocketGo()" class="outline-none fire_font bg-white hover:bg-blue-500 text-gray-900 hover:text-white font-bold py-2 px-4 rounded">
+						Create A Project
+					</button>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="px-24 py-12 text-gray-700 dark:text-gray-500 transition duration-500 ease-in-out">
+	<h2 class="text-4xl font-medium capitalize">Ongoing Projects</h2>
+	<div class="mt-1 mb-4 flex items-center justify-between">
+		<div class="py-4 w-3/4 flex items-center select-none">
+			<span class="hover:text-pink-500 cursor-pointer mr-3">
+				<svg viewBox="0 0 512 512" class="h-5 w-5 fill-current">
+					<path d="M505 442.7L405.3
+					343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7
+					44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1
+					208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4
+					2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9
+					0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7
+					0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0
+					128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+				</svg>
+			</span>
+			<input class="w-full bg-transparent focus:outline-none" placeholder="Search projects">
+		</div>
+		<button class="flex items-center focus:outline-none border
+			rounded-full py-2 px-6 leading-none border-gray-500
+			select-none hover:text-pink-600 hover:bg-pink-300">
+			<span>Search</span>
+		</button>		
+	</div>
+
+			<div class="border dark:border-gray-700 transition duration-500
+                ease-in-out"></div>
+
+
+				<div class="flex justify-end py-4">
+					<div class="flex items-center select-none">
+						<span>Filter : </span>
+						<div class="mx-4 inline-block relative w-32">
+							<select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+							  <option value="Web_Development">Web Development</option>
+							  <option value="App_Development">App Development</option>
+							  <option value="Game_Development">Game Development</option>
+							  <option value="Software_Development">Software Development</option>
+							  <option value="Graphic_Design">Graphic Design</option>
+							  <option value="Bussiness_Management">Bussiness_Management</option>
+							  <option value="Study_And_Assignment">Study_And_Assignment</option>
+							  <option value="Script">Script</option>
+							  <option value="Other">Other</option>
+							</select>
+							<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+							  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+							</div>
+						  </div>
+					</div>
+				</div>
+
+</div>
+
+
+
+<div class="flex justify-center">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {% for x in projectlist %}
+        <div class=" max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-10" >
+            <div class="px-4 py-8 " style="min-height: 24rem;">
+              <h1 class="text-gray-900 font-bold text-2xl uppercase text-center">{{x.projectName}}</h1>
+              <div class="py-8 text-center" >
+                    <p class="text-gray-900 text-sm mt-1 text-center">Details</p>
+                    <p class="text-gray-600 text-sm mt-1">{{x.onlyHalf}} <span class="bg-red-500 text-white px-2 rounded-lg"> more </span></p>
+                    <p class="text-gray-900 text-sm mt-1 text-center">Requirements</p>
+                    <p class="text-gray-600 text-sm mt-1">{{x.onlyHalfR}}<span class="bg-red-500 text-white px-2 rounded-lg"> more </span></p>
+              </div>
+            </div>
+            
+            
+            <div>
+				<img class="h-56 w-full object-cover mt-2" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80">
+				<div class="">
+					<h1 class="text-center text-white text-2xl font-bold bang" style="position: relative;bottom:7.6rem;z-index:2;overflow: hidden;">{{x.catagory}}</h1>
+				</div>
+				<div id="myDIV{{x.id}}">
+				{% for y in x.Cusers.all %}
+				🔗{{y.first_name}} {{y.last_name}},
+				{% endfor %}
+				</div>
+			</div>
+            <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
+				<h1 class="text-gray-200 font-bold text-xl">ID : {{x.id}}</h1>
+				<a href="{% url 'projects:seeProject' that_id=x.id %}">
+					<button class="px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded">More Details</button>
+				</a>
+			</div>
+        </div> 
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

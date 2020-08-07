@@ -1,0 +1,43 @@
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+
+<style>
+  .hard__font{
+    font-family: 'Roboto', sans-serif;
+}
+</style>
+
+<header class="text-gray-700 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+        <a href="{% url 'projects:projectList' %}" class="hard__font text-xl text-extrabold mr-5 hover:text-gray-900 hover: transition transform duration-500 ease-in-out p-1 bg-purple-100 cursor-pointer hover:-translate-y-1 hover:scale-110">Projects</a>
+        <a href="{% url 'bop:createProject' %}" class="hard__font text-xl text-extrabold mr-5 hover:text-gray-900 hover: transition transform duration-500 ease-in-out p-1  cursor-pointer hover:-translate-y-1 hover:scale-110 bg-blue-100">Create A Project</a>
+        <a href="{% url 'bop:profile' %}" class="hard__font text-xl text-extrabold mr-5 hover:text-gray-900 hover: transition transform duration-500 ease-in-out p-1 bg-purple-100 cursor-pointer hover:-translate-y-1 hover:scale-110 ">Profile</a>
+        
+        
+      </nav>
+      <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
+        <img src="https://img.icons8.com/cute-clipart/64/000000/book.png"/>
+        <span class="font__title ml-3 text-xl">DevelopersBook</span>
+      </a>
+        {% if user.is_authenticated %}
+            <button class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+                <a href="{% url 'core:corelogout' %}" class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0"> Logout
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </button>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+            <button class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+                
+            </button>
+        {% endif %}
+    </div>
+  </header>
+  <div class="border dark:border-gray-700 transition duration-500
+  ease-in-out"></div>
+{% block body %}
+{% endblock %}

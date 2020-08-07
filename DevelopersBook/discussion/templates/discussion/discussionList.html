@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+<style>
+    *{
+        font-family: 'Roboto', sans-serif;
+    }
+    .bang{
+        font-family: 'Bangers', cursive;
+    }
+</style>
+<div class="py-12 fire_font -m-2 flex justify-center">
+    <div class="p-2 ">
+        <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-md cursor-pointer text-center transition duration-500 ease-in-out hover:scale-150 hover:-translate-y-1 transform">
+        <a href="{% url 'bop:createProject' %}">
+            <span class="inline-flex bg-indigo-600 text-white rounded-full h-6 px-3 justify-center items-center hover:bg-red-400">Create</span>
+            <span class="inline-flex px-2">Start A Discussion Now !</span>
+        </a>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex justify-center">
+    <div class="pr-12">
+        <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_WVPzdv.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+    </div>
+    <div class="flex justify-center items-center ">
+        <h1 style="letter-spacing: 2px;" class=" text-xl font-bold text-gray-700 text-center bang">Share your problems here <br> create discussion , solve together ! </h1>
+    </div>
+</div>
+
+{% for x in d %}
+<div>
+    <div class="flex justify-center ">
+        <div class="flex mx-6 my-12 w-full">
+            <div class="flex items-center justify-center w-2/12 bg-gray-900 text-center rounded-lg ">
+                <h1 class="font_fire text-3xl text-white font-bold rounded-full">
+                    #{{x.id}}
+                </h1>
+            </div>
+            <div class="mx-12 bg-gray-900 w-10/12  text-left px-6 fire_font py-6 text-white rounded-lg">
+                <span class="text-md bg-red-600 rounded px-1 my-2"><span class="  text-xl ">Problem : </span>{{x.title}}</span><br>
+                <span class="text-sm bg-red-600 rounded px-1">Submitted By : {{x.CreatedBy.first_name}} {{x.CreatedBy.last_name}}</span>
+                <h1 class="text-sm bg-red-600 rounded px-1 my-2 w-1/5">At : {{x.CreatedAt}}</h1>
+                <div class="bg-white p-4 rounded-lg my-4">
+                    <h1 class="text-sm text-gray-800">Details : {{x.onlyHalf}}</h1>
+                </div>
+                <div class="flex justify-end">
+                    <a href="{% url 'discussion:inDiscussion' that_discussion_id=x.id %}">
+                        <button class="transition duration-500 ease-in-out hover:bg-blue-500 bg-red-500 transform hover:-translate-y-1 hover:scale-110 py-2 px-4 rounded">
+                            More
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

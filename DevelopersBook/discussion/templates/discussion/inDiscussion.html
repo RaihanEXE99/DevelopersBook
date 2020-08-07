@@ -1,0 +1,147 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+    *{
+        font-family: 'Roboto', sans-serif;
+    }
+</style>
+
+<!-- <div class="flex justify-center">
+	<div class="bg-red-500 hover:bg-pink-500 fire_font text-2xl">
+		<h1 class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Discussion</h1>
+	</div>
+</div> -->
+
+<div>
+    <div class="flex justify-center ">
+        <div class="flex mb-12 w-full ">
+            <div class=" bg-gray-900 w-full  text-center px-6 fire_font py-6 text-white">
+                <span class="text-3xl bg-red-600 rounded px-1 my-2"><span class="text-2xl">Problem : </span>{{that_discussion.title}}</span><br>
+                <span class="text-xl bg-red-600 rounded px-1">Submitted By : {{that_discussion.CreatedBy.first_name}} {{that_discussion.CreatedBy.last_name}}</span><br>
+                <span class="text-xl bg-red-600 rounded px-1 my-2 ">At : {{that_discussion.CreatedAt}}</span>
+                <div class="bg-white p-4 rounded-lg my-4 text-left">
+                    <h1 class="text-xl text-gray-800 whitespace-pre overflow-x-auto">Details :<br>{{that_discussion.Problem}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-center">
+	<div class="bg-gray-900 fire_font text-2xl rounded-lg">
+		<h1 class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4 font-bold" >Comments</h1>
+	</div>
+</div>
+
+{% if not comments %}
+<div class="flex justify-center">
+    <div class="flex justify-center my-12 bg-gray-100 px-12 mx-12 rounded-lg w-3/5">
+        <div class="px-4 rounded-t-md">
+        <div class="flex justify-center bg-gray-900 py-4 ">
+            <div>
+                <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_ahY2hu.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+            </div>
+        </div>
+        <div class="flex justify-center bg-gray-300 pt-4 ">
+            <div class="text-center">
+                <h2 class="text-lg font-semibold text-gray-800 -mt-1 fire_font">No reply Yet</h2>
+                <div class="my-4 mx-8">
+                    <h2 class="text-sm font-normal text-gray-600 -mt-1 fire_font">Help him , Be the hero . Reply now if you know the solution.</h2>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="px-4 rounded-t-md">
+            <div class="flex justify-center py-4 ">
+            <div>
+                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_G5TBf4.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+            </div>
+            </div>
+            <div class="flex justify-center pt-4 ">
+            <div class="text-center">
+                <!-- <h2 class="text-lg font-semibold text-gray-800 -mt-1 fire_font">No reply Yet</h2> -->
+                <div class="my-4 mx-8">
+                    <h2 class="text-xl text-gray-600 -mt-1 fire_font">Help him by sharing this discussion link !</h2>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if comments %}
+<div class="flex justify-center">
+    <div class="flex justify-center my-12 bg-gray-200 px-12 mx-12 rounded-3lg w-3/5">
+
+        <div class="px-4 rounded-t-md">
+            <div class="flex justify-center py-4 ">
+                <div>
+                    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_G5TBf4.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                </div>
+                </div>
+                <div class="flex justify-center pt-4 ">
+                <div class="text-center">
+                    <!-- <h2 class="text-lg font-semibold text-gray-800 -mt-1 fire_font">No reply Yet</h2> -->
+                    <div class="my-4 mx-8">
+                        <h2 class="text-xl text-gray-600 -mt-1 fire_font">Help him by sharing this discussion link !</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% for x in comments %}
+<div>
+    <div class="flex justify-center ">
+        <div class="flex justify-center mx-32 my-2 w-full">
+            <!-- <div class="flex items-center justify-center w-2/12 bg-gray-900 text-center rounded-lg ">
+                <h1 class="font_fire text-3xl text-white font-bold rounded-full">
+                    #{{x.id}}
+                </h1>
+            </div> -->
+            <div class="mx-12 bg-gray-900 w-10/12  text-left px-6 fire_font py-6 text-white rounded-lg">
+                <!-- <span class="text-md bg-red-600 rounded px-1 my-2"><span class="  text-xl ">Problem : </span>{{x.Tdiscussion.title}}</span><br> -->
+                <span class="text-sm bg-red-600 rounded px-1">Commented By : {{x.ComUser.first_name}} {{x.ComUser.last_name}}</span>  <br>
+                <span class="text-sm bg-red-600 rounded px-1 my-2 w-2/5">At : {{x.timeStamp}}</span>
+                <div class="bg-white p-4 rounded-lg my-4">
+                    <h1 class="text-sm text-gray-800 whitespace-pre overflow-x-auto">Reply : <br>{{x.myComment}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endfor %}
+
+<div>
+    <div class="flex justify-center ">
+        <div class="flex justify-center mx-32 my-24 w-full">
+            <!-- <div class="flex items-center justify-center w-2/12 bg-gray-900 text-center rounded-lg ">
+                <h1 class="font_fire text-3xl text-white font-bold rounded-full">
+                    #{{x.id}}
+                </h1>
+            </div> -->
+            <div class="mx-12 bg-gray-900 w-10/12  text-left px-6 fire_font py-6 text-white rounded-lg">
+                <span class="text-xl bg-red-600 rounded px-1 my-2 w-1/5">Reply</span>
+                <form method="POST" action="{% url 'discussion:replyDiscussion' that_discussion_id=that_discussion.id %}">
+                    {% csrf_token %}
+                    <div class="bg-white rounded-lg my-2">
+                        <textarea name="myComment" class="text-gray-700 p-2 outline-none rounded-lg form-textarea mt-1 block w-full" rows="4" placeholder="Your reply !"></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="transition duration-500 ease-in-out hover:bg-blue-500 bg-red-500 transform hover:-translate-y-1 hover:scale-110 py-2 px-4 rounded">
+                            Reply
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

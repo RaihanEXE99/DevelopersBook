@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% block body%}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+    *{
+        font-family: 'Roboto', sans-serif;
+    }
+</style>
+
+{% for x in all_accounts %}
+<div class="flex justify-center">
+    <div class="w-2/3 py-4">
+        <div class="coding inverse-toggle px-5 pt-4 shadow-lg text-gray-100 text-sm font-mono subpixel-antialiased 
+                    bg-gray-800  pb-6 pt-4 rounded-lg leading-normal overflow-hidden">
+            <div class="top mb-2 flex">
+                <div class="h-3 w-3 bg-red-500 rounded-full"></div>
+                <div class="ml-2 h-3 w-3 bg-orange-300 rounded-full"></div>
+                <div class="ml-2 h-3 w-3 bg-green-500 rounded-full"></div>
+            </div>
+            <div class="flex justify-center">
+                <div class="border-solid shadow-xl w-full flex">
+                    <div class=" w-1/4 flex justify-center p-2">
+                        <div class=" flex items-center">
+                            <img class="rounded-full" src="http://graph.facebook.com/{{x.extra_data.id}}/picture?type=normal&width=85&height=85" >
+                        </div>
+                    </div>
+                    <div class="w-2/4 ">
+                        <div class="  px-4 flex justify-start">
+                            <div class="pt-4 fire_font text-xl font-bold">
+                                {{x.extra_data.name}}
+                            </div>
+                        </div>
+                        <div class="  px-4 flex justify-start">
+                            <div class="py-4 ">
+                                {{x.extra_data.email}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" w-1/4 flex justify-end p-2">
+                        <div class=" flex items-center">
+                            <a href="{% url 'bop:thatUser' that_username=x.user.username %}" >
+                                <button class="bg-red-500 hover:bg-gray-100 hover:text-black text-white font-semibold py-2 px-4  rounded shadow">
+                                    Visit
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+{% endblock %}

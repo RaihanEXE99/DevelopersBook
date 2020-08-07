@@ -1,0 +1,137 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'projects/project.css' %}">
+
+<style>
+  #details{
+    display: none;
+    position: fixed;
+    text-align: center;
+    z-index: 1;
+  }
+  #requirements{
+    display: none;
+    position: fixed;
+    text-align: center;
+    z-index: 1;
+  }
+  .p__details{
+    display: close;
+    background: white;
+    margin:10vh;
+    /*width: 40vw; height: 40vw;*/
+    padding: 4vw;
+    width: 30rem;
+    height: fit-content;
+    border: 2px solid gray;
+    border-radius: 2vw;
+    z-index: 1;
+  }
+
+  @keyframes oppa {
+    from {opacity: 0;}
+    to {opacity: 100;}
+  }
+</style>
+
+
+<!-- Pop-up -->
+<div>
+  <div id="details" style=" width: 100vw; height: 100%;justify-content: center;animation: oppa 2s;">
+    <div class="p__details" >
+      <p class="font__title p-6 text-gray-800 text-center text-xl font-semibold">Project Details</p>
+      <p class="font__title text-gray-700 text-center text-md font-semibold">{{that_project.Details}}</p>
+      <div class="flex justify-center p-4">
+        <button onclick="detailsClose()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="requirements" style=" width: 100vw; height: 100%;justify-content: center;animation: oppa 2s;">
+    <div class="p__details" >
+      <p class="font__title p-6 text-gray-800 text-center text-xl font-semibold">Requirements</p>
+      <p class="font__title text-gray-700 text-center text-md font-semibold">
+        {{that_project.Requirements}}
+      </p>
+      <div class="flex justify-center p-4">
+        <button onclick="requirementsClose()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end pop-up -->
+
+
+<!-- Project Logo -->
+<div class="project__logo flex justify-center">
+  <img class="p-12 rounded-full" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&h=200&q=80" alt="">
+</div>
+<!-- Project Logo Ends -->
+
+<!-- Project title -->
+<div class="p-8">
+  <p class="font__title text-gray-600 text-center text-3xl font-semibold">{{that_project.projectName}}</p>
+  <p class="font__title text-gray-600 text-center text-xl font-semibold">#{{that_project.id}}</p>
+</div>
+<!-- Project title ends -->
+
+<!-- Details -->
+<div class="m-4 grid grid-cols-2 gap-8">
+  <div class=" project__details p-8 bg__zag">
+    <div class="flex justify-center ">
+      <img class=" project__details__img" src="{% static 'projects/images/undraw_Master_plan_re_jvit.png' %}" alt="">
+    </div>
+    
+    <div class="flex justify-center p-4">
+      <button onclick="openDetails()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+        Details
+      </button>
+    </div>
+  </div>
+
+  <div class="project__details p-8  bg__zag">
+    <div class="flex justify-center">
+      <img class="project__details__img" src="{% static 'projects/images/undraw_my_personal_files_8krs.png' %}" alt="">
+    </div>
+    <div class="flex justify-center p-4">
+      <button type="button" onclick="openRequirements()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+        Requirements
+      </button>
+    </div>
+  </div>
+    
+</div>
+<!-- details End -->
+
+<!-- Github link -->
+<div class="m-24 grid grid-cols-2 gap-8 flex items-center">
+  <img class=" project__details__img" src="{% static 'projects/images/undraw_version_control_9bpv.svg' %}" alt="">
+  <div class="skull__bg">
+    <p class="font__title text-gray-600 py-4 text-center text-3xl font-semibold">Send Request To Join </p>
+    <p class="font__title text-gray-600 text-center text-md font-semibold">
+      Wanna Join ?<br>Send an appliaction and join
+    </p>
+    <div class="flex justify-center">
+      <a href="{% url 'bop:LetMeIn' that_id=that_project.id %}">
+        <button class=" my-12 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow">
+          I am interested, Let me in!
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Github end -->
+
+
+
+
+
+<script src="{% static 'projects/js/project.js' %}"></script>
+
+{% endblock %}

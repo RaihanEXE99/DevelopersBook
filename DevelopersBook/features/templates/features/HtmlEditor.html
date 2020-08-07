@@ -1,0 +1,288 @@
+{% extends 'projects/base.html' %}
+{% block body%}
+{% load static %}
+
+
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+body,html{
+    height:100%;
+}
+
+#wrap{
+	height:100%;
+	position:relative;
+	background:white;
+}
+
+#coder{ 
+	display:block;
+	position:relative;
+	width:100%;
+	height:65%;
+}
+#preview{
+	display:block;
+	position:relative;
+	width:100%;
+	height:100%;
+	background:#fff;
+}
+	#preview iframe{
+		width:100%;
+		height:100%;
+		border:none;
+	}
+#status{
+	padding:25px 0;
+	height:50px;
+}
+.spanD {
+    font: 700 3em/1 "Oswald", sans-serif;
+    letter-spacing: 0;
+    padding: .25em 0 .325em;
+    display: block;
+    margin: 0 auto;
+    text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
+    /* Clip Background Image */
+    background: url(http://f.cl.ly/items/010q3E1u3p2Q0j1L1S1o/animated_text_fill.png) repeat-y;
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Animate Background Image */
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: aitf 80s linear infinite;
+    /* Activate hardware acceleration for smoother animations */
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Animate Background Image */
+  @-webkit-keyframes aitf {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+</style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<!-- ss -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+<!-- ss -->
+<body>
+    
+
+    <div id="wrap">
+        <!-- <div class="flex justify-center py-4">
+            <span class="text-2xl font-semibold italic text-gray-700">HTML EDITOR </span> <span class="text-2xl font-semibold italic text-purple-400">(Live Server)</span>
+        </div> -->
+        <div class="bg-gray-900">
+            <span class="spanD ">
+                HTML EDITOR
+              </span>
+        </div>
+            
+
+
+        <!-- <div id="status">
+            <p><i class="fa fa-spinner fa-spin fa-fw"></i> generating preview</p>
+        </div> -->
+            
+        <div style="font-size: 1.5vw;" id="coder">&lt;style&gt; 
+    * { 
+        font-family: sans-serif; 
+        color: rgba(0,0,0,0.75); 
+    } 
+    body { 
+        /*background: #fafafa;*/ 
+        background: rgb(63, 61, 86); 
+        height: 100vh; 
+        padding: 0px 30px; 
+        margin: 0; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+    } 
+    .lp { 
+        background: #fff; 
+        box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.4); 
+        border-radius: 8px; 
+        max-width: 680px; 
+        height: 400px; 
+        margin: auto; 
+        padding: 32px 32px 8px 32px; 
+        overflow: hidden; 
+    } 
+    .lp__body { 
+        display: flex; 
+    } 
+    /*NAV*/ 
+    .lp__nav { 
+        width: max-content; 
+        display: flex; 
+        align-items: center; 
+    } .lp__nav__logo { 
+        width: 20px; 
+        margin: -1px 0 0; 
+        padding: 0 4px 0 0; 
+    } .lp__nav__text { 
+        font-weight: 600; 
+        font-size: 18px; 
+    } 
+    /*MAIN TEXT*/ 
+    .lp__text { 
+        min-width: 200px; 
+        padding: 0 0 25px; 
+        align-self: flex-end; 
+    } 
+    .lp__text__title { 
+        font-size: 32px; 
+        text-decoration: 
+        underline; margin: 0; 
+    } 
+    .lp__text__title-first { 
+        display: block; 
+    } 
+    .lp__text__subtext { 
+        color: #aaa; 
+        font-size: 12px; 
+        line-height: 1.75; 
+        margin: 16px 0; 
+    } 
+    /*MAIN IMAGE*/ 
+    .lp__mainImg { } 
+    .lp__mainImg__img { 
+        width: 100%; 
+        height: 410px; 
+        margin: -70px 40px 0; 
+    } 
+&lt;/style&gt; 
+        
+&lt;main&gt; 
+&lt;div class=&quot;lp&quot;&gt; 
+    &lt;!--- START: NAV ---&gt; 
+    &lt;nav class=&quot;lp__nav&quot;&gt; 
+    &lt;img 
+    src=&quot;https://cdn.pixabay.com/photo/2016/12/19/03/14/computer-1917230__480.png&quot; 
+    class=&quot;lp__nav__logo&quot;&gt; 
+    &lt;p class=&quot;lp__nav__text&quot;&gt;Studio.&lt;/p&gt; 
+    &lt;/nav&gt; 
+    &lt;!--- END: NAV ---&gt; 
+    &lt;section class=&quot;lp__body&quot;&gt; 
+    &lt;!--- START: TEXT ---&gt; 
+    &lt;div class=&quot;lp__text&quot;&gt; 
+    &lt;h1 class=&quot;lp__text__title&quot;&gt;&lt;span class=&quot;lp__text__title-first&quot;&gt;Invite&lt;/span&gt; Designers&lt;/h1&gt; 
+    &lt;p class=&quot;lp__text__subtext&quot;&gt;Invite designers below who want to share their work on Dribble.&lt;/p&gt; 
+    &lt;/div&gt; 
+    &lt;!--- END: TEXT ---&gt; 
+    &lt;!--- START: IMG ---&gt; 
+    &lt;div class=&quot;lp__mainImg&quot;&gt; 
+    &lt;img 
+    src=&quot;https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/experience_design_eq3j.svg&quot; 
+    class=&quot;lp__mainImg__img&quot;&gt; 
+    &lt;/div&gt; 
+    &lt;!--- END: IMG ---&gt; 
+    &lt;/section&gt; 
+&lt;/div&gt; 
+&lt;/main&gt;</div>
+        
+        <div onclick="scrollWin()" class="cursor-pointer bg-gray-600 flex justify-center">
+            <p class="text-2xl font-bold italic text-white py-4">↓ Live Preview ↓ Scroll Down ↓</p> 
+        </div>
+
+        <div id="preview"></div>
+        
+    </div>
+
+</body>
+<script>
+    function scrollWin() {
+        window.scrollBy(0, 1200);
+      }
+    function topFunction() {
+        document.body.scrollTop = 80;
+        document.documentElement.scrollTop = 800;
+      }
+    //SS
+document.querySelector('button').addEventListener('click', function() {
+    html2canvas(document.querySelector('.specific'), {
+        onrendered: function(canvas) {
+            // document.body.appendChild(canvas);
+          return Canvas2Image.saveAsPNG(canvas);
+        }
+    });
+});
+//ss
+</script>
+<script>
+    var editor = ace.edit("coder");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/html");
+    editor.getSession().setUseWorker(false);
+
+function myFunction(){	
+	
+	$("#status p").delay(500).fadeOut(200);
+	
+	var code = editor.getValue();
+	
+	var iframe = document.createElement('iframe');
+	
+	var preview = document.getElementById('preview');
+	var content = '<!doctype html>' + code;
+
+	preview.appendChild(iframe);
+
+	iframe.contentWindow.document.open('text/htmlreplace');
+	iframe.contentWindow.document.write(content);
+	iframe.contentWindow.document.close();
+	
+	// $("#preview").html(code);
+	
+}
+
+myFunction();
+
+var timeout;
+
+$('#search-form .search-terms').on('keydown', function(e){
+    // get keycode of current keypress event
+    var code = (e.keyCode || e.which);
+
+    // do nothing if it's an arrow key
+    if(code == 37 || code == 38 || code == 39 || code == 40) {
+        return;
+    }
+
+    // do normal behaviour for any other key
+    $('#search-items #autocom').fadeIn();
+});
+
+$("#coder").on('keyup', function() {
+	
+	$("#status p").fadeIn(200);
+	
+	console.log("yea");
+
+	if(timeout) {
+		clearTimeout(timeout);
+		timeout = null;
+	}
+
+	$("#preview").empty();
+	timeout = setTimeout(myFunction, 500)
+
+}); 
+
+
+
+</script>
+
+
+
+{% endblock %}

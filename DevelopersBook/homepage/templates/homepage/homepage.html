@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% load socialaccount %}
+
+
+{% load account %}
+{% user_display user %}
+
+
+{% block body%}
+
+{% if user.is_authenticated %}
+    <div class="my-64">
+
+
+        <div class="flex justify-center ">
+            <div>
+                <div href="{% provider_login_url "facebook" method="oauth2" %}"
+                class="flex justify-center items-center bg-blue-500  text-white font-bold py-2 px-12 rounded">
+                    <img class="px-4" src="https://img.icons8.com/fluent/48/000000/facebook-new.png"/>
+                    You're already logged in
+                </div>
+            </div> 
+        </div>
+        
+        
+    </div>
+
+{% endif %}
+
+{% if not user.is_authenticated %}
+<div class="my-64">
+    <div class="flex justify-center my-12">
+        <p class="w-1/2 text-gray-500 text-center text-2xl font-semibold">
+            Facebook Login is a fast and convenient way for people to create accounts and log into your app across multiple platforms.You can use Facebook Login simply for authentication. Its 100 % safe and secure.
+        </p>
+    </div>
+
+    <div class="flex justify-center ">
+        <div>
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <a href="{% provider_login_url "facebook" method="oauth2" %}"
+            class="flex justify-center items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-12 rounded">
+                <img class="px-4" src="https://img.icons8.com/fluent/48/000000/facebook-new.png"/>
+                Login With Facebook
+            </a>
+        </div> 
+    </div>
+</div>
+{% endif %}
+    
+
+
+{% endblock %}

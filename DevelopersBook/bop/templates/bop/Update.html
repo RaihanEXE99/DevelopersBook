@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block body%}
+
+<div class="flex  justify-center leading-loose">
+    <form action="{% url 'bop:update' %}" method="POST" class="fire_font w-1/2  m-4 p-10 bg-white rounded shadow-xl">
+        {% csrf_token %}
+        <p class="text-gray-800 font-bold text-center text-2xl">Update</p>
+      <div class="">
+        <label class="block text-md text-gray-00" for="bio">Bio</label>
+        <textarea class="h-32 w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="" name="userBio" type="text" required="" placeholder="About you and your skills!"   maxlength="250">{{that_bio.0.userBio}}</textarea>
+      </div>
+      <div class="mt-2">
+        <label class="block text-sm text-gray-600" for="cus_email">Github</label>
+        <input class="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" id="cus_email" name="myGit" type="url"  placeholder="Your Github Url" value="https://github.com/404" >
+      </div>
+      <div class="mt-2">
+        <label class="block text-sm text-gray-600" for="cus_email">Facebook</label>
+        <input class="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" name="myFb" type="url"  placeholder="Your FaceBook Url" value="https://www.facebook.com/error20%20404">
+      </div>
+    <div class="flex justify-end">
+        <div class="inline-block mt-2 -mx-1 pl-1 w-1/2">
+            <button type="submit" class="w-full px-2 py-2 text-white bg-gray-900 hover:bg-green-500 rounded" >
+                Update
+            </button>
+        </div>
+    </div>
+    </form>
+  </div>
+
+{% endblock %}

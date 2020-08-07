@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+
+<!-- <div class="flex justify-center pb-12">
+	<div class="bg-red-500 hover:bg-pink-500 fire_font text-2xl">
+        <a href="{% url 'bop:createProject' %}">
+		    <h1 class="inline-block text-gray-100 no-underline hover:text-gray-100 hover:text-underline py-2 px-4" href="#">Create A Project</h1>
+        </a>
+    </div>
+</div> -->
+
+<div class="py-12 fire_font -m-2 flex justify-center">
+    <div class="p-2 ">
+        <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-md cursor-pointer text-center transition duration-500 ease-in-out hover:scale-150 hover:-translate-y-1 transform">
+        <a href="{% url 'bop:createProject' %}">
+            <span class="inline-flex bg-indigo-600 text-white rounded-full h-6 px-3 justify-center items-center hover:bg-red-400">Create</span>
+            <span class="inline-flex px-2">Start A Project Now !</span>
+        </a>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex justify-center">
+<h1 class="fire_font text-blue-500 text-sm font-semibold ">You are working on a total of<span class=" text-Green-700 font-bold fire_font"> {{counter}}</span> project</h1>
+</div>
+
+{% for x in p %}
+<div class="fire_font h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
+	<div class="bg-white border-solid border-2 border-gray-300 rounded shadow-xl p-6 m-4 w-full lg:w-3/4 ">
+        <div class="mb-4">
+            <h1 class="text-grey-darkest text-xl font-bold ">| Project |<span class=" text-gray-700 font-bold fire_font"> {{x.projectName}}</span></h1>
+            <div class="flex mt-4">
+                <div class="font-semibold shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-gray-900" >{{x.Details}}</div>
+                <!-- <button class="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button> -->
+            </div>
+        </div>
+        <div>
+            <div class="flex mb-4 items-center">
+                <div class="w-full text-grey-darkest bg-white rounded shadow p-6 m-4">
+                    <h1 class="text-xl text-green-400 font-bold italic">Members</h1>
+                    {% for y in x.Cusers.all %}
+                        <h1>
+                            🔗{{y.first_name}} {{y.last_name}}
+                        </h1>
+                    {% endfor %}
+                    
+                </div>
+                <!-- <button class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green">Done</button> -->
+                <button class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-Red-600 hover:bg-red">#{{x.id}}</button>
+            </div>
+          	<div class="flex mb-4 items-end justify-end">
+                <p class="w-full font-bold text-gray-700">|| Created At : {{x.CreatedAt}} ||</p>
+                <!-- <button class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-grey border-grey hover:bg-grey">Not Done</button> -->
+                <button class="text-xl flex-no-shrink px-4 py-2 ml-2 border-2 bg-purple-500 text-white rounded hover:text-white hover:bg-blue-700">Dive</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

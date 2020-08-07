@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %}
+{% block body%}
+{% load static %}
+
+
+<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'projects/projectList.css' %}">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+
+<style>
+	*{
+		font-family: 'Roboto', sans-serif;
+		font-weight: bold;
+	}
+	.bang{
+		font-family: 'Bangers', cursive;
+		letter-spacing: 2px;
+	}
+</style>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<!-- JavaScript -->
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+<style>
+    /* external css: flickity.css */
+    
+    * {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    
+    body { font-family: sans-serif; }
+    
+    .gallery {
+      background: #EEE;
+    }
+    
+    .gallery-cell {
+        width: 40vw;
+        margin-right: 10px;
+        counter-increment: gallery-cell;
+    }
+    @media screen and (min-width: 1568px) {
+        .gallery-cell {
+            width: 25vw;
+            margin-right: 10px;
+            counter-increment: gallery-cell;
+        }
+      }
+    
+    /* cell number */
+    .gallery-cell:before {
+      display: block;
+      text-align: center;
+      content: normal;
+      line-height: 200px;
+      font-size: 80px;
+      color: white;
+    }
+</style>
+<!-- Flickity HTML init -->
+
+<div class="gallery js-flickity"
+  data-flickity-options='{ "wrapAround": true }'>
+
+  {% for x in projectlist %}
+    <div class="gallery-cell">
+        <div class="flex justify-center">
+        <div>
+            <div class=" max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-10" >
+                <div class="px-4 py-8 " style="min-height: 24rem; min-width:23rem;">
+                  <h1 class="text-gray-900 font-bold text-2xl uppercase text-center">{{x.projectName}}</h1>
+                  <div class="py-8 text-center" >
+                        <p class="text-gray-900 text-sm mt-1 text-center">Details</p>
+                        <p class="text-gray-600 text-sm mt-1">{{x.onlyHalf}} <span class="bg-red-500 text-white px-2 rounded-lg"> more </span></p>
+                        <p class="text-gray-900 text-sm mt-1 text-center">Requirements</p>
+                        <p class="text-gray-600 text-sm mt-1">{{x.onlyHalfR}}<span class="bg-red-500 text-white px-2 rounded-lg"> more </span></p>
+                  </div>
+                </div>
+                <div>
+                    <!-- <img class="h-56 w-full object-cover mt-2" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80">
+                    <div class="">
+                        <h1 class="text-center text-white text-2xl font-bold bang" style="position: relative;bottom:7.6rem;z-index:2;overflow: hidden;">{{x.catagory}}</h1>
+                    </div> -->
+                    <div id="myDIV{{x.id}}">
+                    {% for y in x.Cusers.all %}
+                    🔗{{y.first_name}} {{y.last_name}},
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
+                    <h1 class="text-gray-200 font-bold text-xl">ID : {{x.id}}</h1>
+                    <a href="{% url 'projects:seeProject' that_id=x.id %}">
+                        <button class="px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded">More Details</button>
+                    </a>
+                </div>
+            </div> 
+          </div>
+        </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

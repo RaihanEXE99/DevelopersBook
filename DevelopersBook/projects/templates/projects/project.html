@@ -1,0 +1,248 @@
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'projects/project.css' %}">
+
+<style>
+  #details{
+    display: none;
+    position: fixed;
+    text-align: center;
+    z-index: 1;
+  }
+  #requirements{
+    display: none;
+    position: fixed;
+    text-align: center;
+    z-index: 1;
+  }
+  .p__details{
+    display: close;
+    background: white;
+    margin:10vh;
+    /*width: 40vw; height: 40vw;*/
+    padding: 4vw;
+    width: 30rem;
+    height: fit-content;
+    border: 2px solid gray;
+    border-radius: 2vw;
+    z-index: 1;
+  }
+
+  @keyframes oppa {
+    from {opacity: 0;}
+    to {opacity: 100;}
+  }
+</style>
+
+<header class="text-gray-700 body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <nav class="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
+      <a class="mr-5 hover:text-gray-900"></a>
+      <a class="mr-5 hover:text-gray-900"></a>
+      <a class="mr-5 hover:text-gray-900"></a>
+      <a class="hover:text-gray-900"></a>
+    </nav>
+    <a class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
+      <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-purple-500 rounded-full" viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg> -->
+      <img src="https://img.icons8.com/cute-clipart/64/000000/book.png"/>
+      <span class="font__title ml-3 text-xl">DevelopersBook</span>
+    </a>
+    <div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+      <button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Go Back
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Pop-up -->
+<div>
+  <div id="details" style=" width: 100vw; height: 100%;justify-content: center;animation: oppa 2s;">
+    <div class="p__details" >
+      <p class="font__title p-6 text-gray-800 text-center text-xl font-semibold">Project Details</p>
+      <p class="font__title text-gray-700 text-center text-md font-semibold">{{that_project.Details}}</p>
+      <div class="flex justify-center p-4">
+        <button onclick="detailsClose()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="requirements" style=" width: 100vw; height: 100%;justify-content: center;animation: oppa 2s;">
+    <div class="p__details" >
+      <p class="font__title p-6 text-gray-800 text-center text-xl font-semibold">Requirements</p>
+      <p class="font__title text-gray-700 text-center text-md font-semibold">
+        {{that_project.Requirements}}
+      </p>
+      <div class="flex justify-center p-4">
+        <button onclick="requirementsClose()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end pop-up -->
+
+
+<!-- Project Logo -->
+<div class="project__logo flex justify-center">
+  <img class="p-12 rounded-full" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&h=200&q=80" alt="">
+</div>
+<!-- Project Logo Ends -->
+
+<!-- Project title -->
+<div class="p-8">
+  <p class="font__title text-gray-600 text-center text-3xl font-semibold">{{that_project.projectName}}</p>
+  <p class="font__title text-gray-600 text-center text-xl font-semibold">#{{that_project.id}}</p>
+</div>
+<!-- Project title ends -->
+
+<!-- Details -->
+<div class="m-4 grid grid-cols-2 gap-8">
+  <div class=" project__details p-8 bg__zag">
+    <div class="flex justify-center ">
+      <img class=" project__details__img" src="{% static 'projects/images/undraw_Master_plan_re_jvit.png' %}" alt="">
+    </div>
+    
+    <div class="flex justify-center p-4">
+      <button onclick="openDetails()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+        Details
+      </button>
+    </div>
+  </div>
+
+  <div class="project__details p-8  bg__zag">
+    <div class="flex justify-center">
+      <img class="project__details__img" src="{% static 'projects/images/undraw_my_personal_files_8krs.png' %}" alt="">
+    </div>
+    <div class="flex justify-center p-4">
+      <button type="button" onclick="openRequirements()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+        Requirements
+      </button>
+    </div>
+  </div>
+    
+</div>
+<!-- details End -->
+
+<!-- Github link -->
+<div class="m-24 grid grid-cols-2 gap-8 flex items-center">
+  <img class=" project__details__img" src="{% static 'projects/images/undraw_version_control_9bpv.svg' %}" alt="">
+  <div class="skull__bg">
+    <p class="font__title text-gray-600 py-4 text-center text-3xl font-semibold">Version Control</p>
+    <p class="font__title text-gray-600 text-center text-md font-semibold">
+      Version control allows you to keep track of your work and helps you to easily explore the changes you have made, be it data, coding scripts, notes, etc.
+    </p>
+    <div class="flex justify-center">
+      <button class=" my-12 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow">
+        Github (Version Control)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Github end -->
+
+<!-- dicord ,Faebook,notice,members -->
+<div class="m-24 grid grid-cols-4 gap-12 ">
+  <button class="flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 border border-solid rounded-md">
+    <img style="width:5vw" src="https://img.icons8.com/bubbles/100/000000/discord-logo.png"/>
+    <p style="font-size:1.7vw" class="font__title text-gray-600 text-center text-3xl font-semibold">Discord</p>
+  </button>
+  <button class="flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 border border-solid rounded-md">
+    <img style="width:5vw" src="https://img.icons8.com/bubbles/100/000000/facebook-new.png"/>
+    <p style="font-size:1.7vw" class="font__title text-gray-600 text-center text-3xl font-semibold">Facebook</p>
+  </button>
+  <button class="flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 border border-solid rounded-md">
+    <img style="width:5vw" src="https://img.icons8.com/cotton/100/000000/leader-1.png"/>
+    <p style="font-size:1.7vw" class="font__title text-gray-600 text-center text-3xl font-semibold">Members</p>
+  </button>
+  <button class="flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 border border-solid rounded-md">
+    <img style="width:5vw" src="https://img.icons8.com/clouds/100/000000/information.png"/>
+    <p style="font-size:1.7vw" class="font__title text-gray-600 text-center text-3xl font-semibold">Informations</p>
+  </button>
+</div>
+<!-- end of dfnm -->
+
+
+
+<!-- discussion -->
+
+<p class="font__title my-5 text-gray-600 text-center text-6xl font-semibold">Discussion</p>
+
+<div class="mx-12 h-screen  flex antialiased text-gray-200 bg-gray-900 overflow-hidden">
+  <div class="flex-1 flex flex-col">
+      <div class="border-b-2 border-gray-800 p-2 flex flex-row z-20">
+          <div class="bg-red-600 w-3 h-3 rounded-full mr-2"></div>
+          <div class="bg-yellow-500 w-3 h-3 rounded-full mr-2"></div>
+          <div class="bg-green-500 w-3 h-3 rounded-full mr-2"></div>
+      </div>
+      <main class="flex-grow flex flex-row min-h-0">
+          <section class="px-12 flex flex-col flex-auto border-l border-gray-800 overflow-y-scroll">
+              <div class="chat-body p-4 flex-1 ">
+                <div class="my-5 flex flex-row justify-start"> 
+                    <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+                      <p class="font__title text-gray-400 text-left text-xm font-semibold">Mecha Bot</p>
+                        <div class="flex items-center group">
+                            <p class="px-6 py-3 rounded-t-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">Hey! How are you?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-5 flex flex-row justify-end">
+                  <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+                      <div class="flex items-center group">
+                          <p class="px-6 py-3 rounded-t-full rounded-b-full bg-blue-700 max-w-xs lg:max-w-md text-gray-200">Yeah, Everything Ok.</p>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="my-5 flex flex-row justify-start"> 
+                  <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+                    <p class="font__title text-gray-400 text-left text-xm font-semibold">Mecha Bot</p>
+                      <div class="flex items-center group">
+                          <p class="px-6 py-3 rounded-t-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">What's our next plan ?</p>
+                      </div>
+                  </div>
+              </div>
+
+              </div>
+              <div class="flex flex-row items-center p-4">
+                
+                <div class="relative flex-grow">
+                    <label>
+                        <input class="rounded-full py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" type="text" value="" placeholder="Aa">
+                    </label>
+                </div>
+                <button type="button" class="flex flex-shrink-0 focus:outline-none mx-2 block text-blue-600 hover:text-blue-700 w-6 h-6">
+                  <img src="https://img.icons8.com/color/48/000000/filled-sent.png"/>
+                </button>
+              </div>
+          </section>
+      </main>
+  </div>
+</div>
+<!-- discussion end -->
+
+<script>
+  function openDetails() {
+    document.getElementById("details").style.display = "flex";
+  }
+  function openRequirements(){
+    document.getElementById("requirements").style.display="flex";
+  }
+  function detailsClose() {
+    document.getElementById("details").style.display = "none";
+  }
+  function requirementsClose() {
+    document.getElementById("requirements").style.display = "none";
+  }
+</script>

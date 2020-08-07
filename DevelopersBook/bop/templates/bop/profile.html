@@ -1,0 +1,91 @@
+{% extends 'core/base.html' %}
+{% block body%}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+    *{
+        font-family: 'Roboto', sans-serif;
+    }
+</style>
+<div class="rounded rounded-t-lg  shadow-2xl max-w-lg mx-auto my-16 py-8">
+    <!--overflow-hidden <img src="https://img.pngio.com/cute-backgrounds-png-wallpaper-cave-cute-background-png-1920_1080.png" class="w-full" /> -->
+  <div class="flex justify-center ">
+      <!-- <img src="https://img.icons8.com/fluent/48/000000/user-male-circle.png"/> -->
+      <img style="width: 10rem;" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="rounded-full border-solid border-white border-2 -mt-3">		
+  </div>
+  <div class="text-center px-3 pb-6 pt-2">
+      <h2 class="text-xl text-gray-700 bold ">{{u.first_name}} {{u.last_name}}</h2>
+      <h3 class="text-gray-600 text-sm bold ">( {{u.username}} )</h3>
+  </div>
+  
+  
+  <!-- <div class="text-center px-3 pb-6 pt-2">
+    <h1 class='text-2xl text-gray-500'> ⥧ My Projects ⥧ </h1>
+    {% for line in p %}
+    <p class="mt-2  font-bold text-dark"><span class="mt-2  font-bold text-red-400">#{{line.id}}</span> {{line.projectName}}</p>
+    <p class="mt-2  font-medium text-gray-500">↪ || {{line.catagory}} ||</p>
+    <p class="mt-2  font-medium text-gray-500">↪ || Created At {{line.CreatedAt}} ||</p>
+    <p class="mt-2  font-medium text-gray-500">  
+    {% if line.Finished == False %}
+        ↪ || Running ||
+      {% elif line.Finished == True %}
+        ↪ || Finished ||
+      {% endif %}
+    </p>
+    {% endfor %}
+  </div>
+  <div class="text-center">
+        {% for skill in skillList %}
+    <span class="inline-block bg-purple-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 m-1">#{{skill}}</span>
+        {% endfor %}
+    <br>
+    <br>
+  </div> -->
+    <!-- <div class="flex justify-center pb-6 text-grey-dark">
+        <div class="text-center mr-12 border-r pr-3">
+        <h2 class="text-blue-600">{{points}}</h2><br>
+        <span>Points</span>
+        </div>
+    
+        <div class="text-center">
+        <h2 class="text-blue-600">{{status}}</h2><br>
+        <span>Status</span>
+        </div>
+    </div> -->
+    <div class=" flex justify-center pb-6 text-grey-dark">
+      <a href="{% url 'bop:MyNotification' %}">
+        <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Notification
+        </button>
+      </a>
+      <a href="{{b.0.myGit}}">
+        <button class="mx-6 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="window.location.href='{{fbl}}';">
+          Github
+        </button>
+      </a>
+      <a href="{{b.0.myFb}}">
+      
+        <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Facebook
+        </button>
+      </a>
+      <a href="{% url 'bop:update' %}">
+        <button class="mx-6 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onclick="window.location.href='{{fbl}}';">
+          Update
+        </button>
+      </a>
+    </div>
+
+    <div class="my-6 text-center px-2 py-6 pb-6 pt-2 bg-gray-900 mx-8 rounded">
+      {% if not b.0.userBio %}
+      <a href="{% url 'bop:update' %}">
+        <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          Create bio
+        </button>
+      </a>
+      {% else %}
+        <p class='text-2xl text-white'>⥧ Bio ⥧</p>
+        <p style="white-space: pre-line !important;" class="mx-8 mt-2 text-md text-white">{{b.0.userBio}}</p>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}
